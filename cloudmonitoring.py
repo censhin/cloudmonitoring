@@ -20,6 +20,7 @@ class CloudMonitoring:
         credentials = {'username':username, 'apiKey':apiKey}
         payload = {'auth':{'RAX-KSKEY:apiKeyCredentials':credentials}}
         r = requests.post(url, data=json.dumps(payload), headers=headers)
+        r.raise_for_status()
         d = r.json
         self.token = d['access']['token']['id']
         self.account = d['access']['token']['tenant']['id']
@@ -39,6 +40,7 @@ class CloudMonitoring:
         payload = {'ip_addresses': {'default': '192.0.2.15'},
                 'label': 'test', 'metadata': {}}
         r = requests.post(url, data=json.dumps(payload), headers=headers)
+        r.raise_for_status()
         return r.json
 
     def list_entities(self):
@@ -48,6 +50,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/entities' % (self.M_URL, self.account)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def list_aids(self):
@@ -107,6 +110,7 @@ class CloudMonitoring:
         url = '%s/%s/monitoring_zones' % (self.M_URL, self.account)
         headers = {'X-Auth-Token': self.token, 'Accept': 'application/json'}
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_cpu_info(self, aid):
@@ -115,6 +119,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/cpus' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_disk_info(self, aid):
@@ -123,6 +128,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/disks' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_fs_info(self, aid):
@@ -131,6 +137,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/filesystems' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_memory_info(self, aid):
@@ -139,6 +146,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/memory' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_network_info(self, aid):
@@ -147,6 +155,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/network_interfaces' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_proc_info(self, aid):
@@ -155,6 +164,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/processes' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_sys_info(self, aid):
@@ -163,6 +173,7 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/system' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
 
     def get_who_info(self, aid):
@@ -172,4 +183,5 @@ class CloudMonitoring:
         """
         url = '%s/%s/host_info/who' % (self.INFO_URL, aid)
         r = requests.get(url, headers=self.headers)
+        r.raise_for_status()
         return r.json
