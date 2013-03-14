@@ -41,6 +41,15 @@ class CloudMonitoring:
         r = requests.post(url, data=json.dumps(payload), headers=headers)
         return r.json
 
+    def list_monitoring_zones(self):
+        """
+        Lists all Cloud Monitoring zones.
+        """
+        url = '%s/%s/monitoring_zones' % (self.M_URL, self.account)
+        headers = {'X-Auth-Token': self.token, 'Accept': 'application/json'}
+        r = requests.get(url, headers=self.headers)
+        return r.json
+
     def list_entities(self):
         """
         Lists Cloud Monitoring entities installed on all servers,
@@ -99,15 +108,6 @@ class CloudMonitoring:
         for a, i in zip(aids, ipv4s):
             d[i] = a
         return d
-
-    def list_monitoring_zones(self):
-        """
-        Lists all Cloud Monitoring's zones.
-        """
-        url = '%s/%s/monitoring_zones' % (self.M_URL, self.account)
-        headers = {'X-Auth-Token': self.token, 'Accept': 'application/json'}
-        r = requests.get(url, headers=self.headers)
-        return r.json
 
     def get_cpu_info(self, aid):
         """
